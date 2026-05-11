@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan 21K — 16 Semanas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0f;--surface:#141417;--surface2:#1c1c21;--border:#2a2a32;--accent:#e8ff47;--accent2:#ff6b4a;--accent3:#47b8ff;--text:#f0efe8;--text-muted:#7a7a8a;--text-dim:#4a4a58;--green:#4affa0;--purple:#b47aff;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;}
+.hero{position:relative;padding:64px 40px 48px;border-bottom:1px solid var(--border);overflow:hidden;}
+.hero::before{content:'21K';position:absolute;right:-20px;top:-30px;font-family:'Playfair Display',serif;font-size:280px;font-weight:900;color:transparent;-webkit-text-stroke:1px var(--border);pointer-events:none;line-height:1;letter-spacing:-10px;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.hero-tag::before{content:'●';font-size:7px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.0;letter-spacing:-2px;margin-bottom:12px;}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero-sub{color:var(--text-muted);font-size:15px;max-width:480px;margin-bottom:32px;}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.stat{display:flex;flex-direction:column;}
+.stat-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;}
+.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);}
+.divider-stat{width:1px;background:var(--border);align-self:stretch;}
+.nav{display:flex;padding:0 40px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.nav::-webkit-scrollbar{display:none;}
+.tab-btn{background:none;border:none;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:16px 18px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .2s,border-color .2s;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.content{display:none;padding:40px;max-width:960px;}
+.content.active{display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:-.5px;}
+.section-sub{color:var(--text-muted);font-size:13px;margin-bottom:32px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
+.card-title{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:12px;font-weight:500;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr;}.hero{padding:40px 20px 32px;}.nav{padding:0 16px;}.content{padding:24px 16px;}.hero-stats{gap:20px;}}
+.macro-bar{margin-bottom:20px;}
+.macro-header{display:flex;justify-content:space-between;margin-bottom:6px;}
+.macro-name{font-size:13px;font-weight:500;}
+.macro-val{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-muted);}
+.bar-track{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;}
+.phase{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.phase-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;cursor:pointer;transition:background .2s;border-bottom:1px solid transparent;}
+.phase-header:hover{background:var(--surface2);}
+.phase-header.open{border-bottom-color:var(--border);}
+.phase-left{display:flex;align-items:center;gap:14px;}
+.phase-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);width:24px;}
+.phase-name{font-size:15px;font-weight:600;}
+.phase-weeks{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.phase-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:1px solid;}
+.phase-arrow{color:var(--text-dim);font-size:18px;transition:transform .3s;margin-left:16px;}
+.phase-header.open .phase-arrow{transform:rotate(180deg);}
+.phase-body{display:none;padding:24px;}
+.phase-body.open{display:block;}
+.ex-table{width:100%;border-collapse:collapse;margin-top:12px;}
+.ex-table th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);padding:8px 12px;border-bottom:1px solid var(--border);font-weight:500;}
+.ex-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);vertical-align:top;}
+.ex-table tr:last-child td{border-bottom:none;}
+.ex-table tr:hover td{background:var(--surface2);}
+.ex-name{color:var(--text);font-weight:500;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;}
+.ex-name:hover{color:var(--accent3);}
+.ex-sets{font-family:'DM Mono',monospace;color:var(--accent);}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;margin-right:4px;}
+.alert{background:rgba(255,107,74,.08);border:1px solid rgba(255,107,74,.25);border-left:3px solid var(--accent2);border-radius:8px;padding:16px 20px;margin-bottom:16px;}
+.alert-title{font-size:12px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.alert p{font-size:13px;color:var(--text-muted);line-height:1.6;}
+.info-box{background:rgba(71,184,255,.06);border:1px solid rgba(71,184,255,.2);border-left:3px solid var(--accent3);border-radius:8px;padding:16px 20px;margin-bottom:16px;}
+.info-box-title{font-size:12px;font-weight:600;color:var(--accent3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.info-box p,.info-box li{font-size:13px;color:var(--text-muted);line-height:1.6;}
+.info-box ul{padding-left:16px;}
+.info-box li{margin-bottom:4px;}
+.plan-list{list-style:none;padding:0;}
+.plan-list li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-muted);line-height:1.5;}
+.plan-list li:last-child{border-bottom:none;}
+.plan-list .bullet{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.milestone-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.milestone-row:last-child{border-bottom:none;}
+.milestone-week{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);width:40px;flex-shrink:0;}
+.milestone-km{font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);width:50px;flex-shrink:0;}
+.milestone-bar-track{flex:1;height:4px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+.milestone-bar-fill{height:100%;background:var(--accent);border-radius:99px;}
+.milestone-label{font-size:12px;color:var(--text-muted);flex-shrink:0;}
+.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.food-grid{grid-template-columns:1fr;}}
+.food-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.food-card-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:10px;}
+.food-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.food-item:last-child{border-bottom:none;}
+.food-name{color:var(--text);}
+.food-prot{font-family:'DM Mono',monospace;color:var(--green);font-size:11px;}
+.rehab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.rehab-grid{grid-template-columns:1fr;}}
+.rehab-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.rehab-card h4{font-size:14px;font-weight:600;margin-bottom:4px;}
+.rehab-card p{font-size:12px;color:var(--text-muted);margin-bottom:8px;}
+.rehab-sets{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent2);}
+.tips-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px;}
+.tips-card-title{font-size:13px;font-weight:600;margin-bottom:10px;}
+.tips-card p,.tips-card li{font-size:12px;color:var(--text-muted);line-height:1.6;}
+.tips-card ul{padding-left:16px;}
+.tips-card li{margin-bottom:6px;}
+.sched-table{width:100%;border-collapse:collapse;min-width:600px;}
+.sched-th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);padding:8px 10px;border-bottom:1px solid var(--border);font-weight:500;}
+.sched-td{padding:10px;border-bottom:1px solid var(--border);font-size:11px;vertical-align:top;line-height:1.4;}
+.c-run{color:var(--accent3);}
+.c-str{color:var(--purple);}
+.c-rest{color:var(--text-dim);font-style:italic;}
+.c-race{color:var(--green);font-weight:600;}
+.c-week{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;width:90%;max-width:680px;position:relative;}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:16px;padding-right:40px;}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:18px;line-height:1;}
+.modal-close:hover{background:var(--border);}
+.modal-video{width:100%;aspect-ratio:16/9;border-radius:8px;border:none;}
+.modal-desc{font-size:12px;color:var(--text-muted);margin-top:12px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Plan de entrenamiento personalizado</div>
+  <h1>De 0 a <em>21km</em><br>en 16 semanas</h1>
+  <p class="hero-sub">Plan estructurado para correr tu primer half marathon el 23 de agosto de 2026, con body recomposition y fortalecimiento tibial posterior.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-val">16</span><span class="stat-label">Semanas</span></div>
+    <div class="divider-stat"></div>
+    <div class="stat"><span class="stat-val">23 Ago</span><span class="stat-label">Race Day</span></div>
+    <div class="divider-stat"></div>
+    <div class="stat"><span class="stat-val">77.1 kg</span><span class="stat-label">Peso inicial</span></div>
+    <div class="divider-stat"></div>
+    <div class="stat"><span class="stat-val">2,050</span><span class="stat-label">Kcal/día</span></div>
+    <div class="divider-stat"></div>
+    <div class="stat"><span class="stat-val">135g+</span><span class="stat-label">Proteína/día</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="tab-btn active" onclick="showTab('overview',this)">Resumen</button>
+  <button class="tab-btn" onclick="showTab('schedule',this)">Calendario 16 Sem</button>
+  <button class="tab-btn" onclick="showTab('strength',this)">Fuerza</button>
+  <button class="tab-btn" onclick="showTab('running',this)">Running</button>
+  <button class="tab-btn" onclick="showTab('rehab',this)">Tibial Rehab</button>
+  <button class="tab-btn" onclick="showTab('nutrition',this)">Nutrición</button>
+  <button class="tab-btn" onclick="showTab('planb',this)">Plan B</button>
+  <button class="tab-btn" onclick="showTab('tips',this)">Tips</button>
+</nav>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <iframe class="modal-video" id="modalVideo" src="" allowfullscreen></iframe>
+    <p class="modal-desc" id="modalDesc"></p>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="content active" id="tab-overview">
+  <p class="section-title">Tu plan de 16 semanas</p>
+  <p class="section-sub">11 mayo — 23 agosto 2026 · Primer half marathon · Body recomposition · Upper/Lower split · Hills integrados</p>
+  <div class="alert"><div class="alert-title">⚠️ Tibial Posterior — Agenda fisioterapeuta esta semana</div><p>Tienes dolor persistente. Agenda antes de aumentar volumen. No corras con dolor agudo. El plan incluye rehab integrado los lunes y viernes, que es cuando tienes más tiempo.</p></div>
+  <div class="grid-3">
+    <div class="card" style="border-top:2px solid var(--accent3)"><div class="card-title">Running</div><p style="font-size:13px;font-weight:600;margin-bottom:6px">Rebuilding → 21km</p><p style="font-size:12px;color:var(--text-muted)">Run-walk las primeras semanas. Hill repeats integrados los lunes. Long run sábados. Progresión 10% semanal.</p></div>
+    <div class="card" style="border-top:2px solid var(--purple)"><div class="card-title">Fuerza</div><p style="font-size:13px;font-weight:600;margin-bottom:6px">Upper/Lower Split</p><p style="font-size:12px;color:var(--text-muted)">Upper A martes · Lower jueves · Upper B + Core viernes. Core también los lunes post-run.</p></div>
+    <div class="card" style="border-top:2px solid var(--accent2)"><div class="card-title">Rehab Tibial</div><p style="font-size:13px;font-weight:600;margin-bottom:6px">Lunes y viernes</p><p style="font-size:12px;color:var(--text-muted)">Fortalecimiento excéntrico + estiramientos. Integrado cuando tienes más tiempo disponible en casa.</p></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Las 4 fases</div>
+    <div>
+      <div style="display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">Sem 1–4</div><div style="font-size:13px;font-weight:600;margin-top:2px">Rebuilding</div></div><div style="font-size:12px;color:var(--text-muted)">Base aeróbica desde cero. Run-walk. Hills 3 rondas (5km lunes). Rehab tibial activa. Establecer rutina.</div><span class="tag" style="background:rgba(71,184,255,.1);color:var(--accent3);border:1px solid rgba(71,184,255,.2)">2–6 km</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">Sem 5–8</div><div style="font-size:13px;font-weight:600;margin-top:2px">Base Aeróbica</div></div><div style="font-size:12px;color:var(--text-muted)">Eliminar run-walk. Hills 4 rondas (6km lunes). Long runs hasta 10km. Fuerza 3x/sem.</div><span class="tag" style="background:rgba(180,122,255,.1);color:var(--purple);border:1px solid rgba(180,122,255,.2)">6–12 km</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">Sem 9–13</div><div style="font-size:13px;font-weight:600;margin-top:2px">Build</div></div><div style="font-size:12px;color:var(--text-muted)">Hills 5 rondas (7km lunes). Long runs 12–18km. Tempo runs miércoles. Primer gel sem 9. Fuerza baja a 2x.</div><span class="tag" style="background:rgba(232,255,71,.1);color:var(--accent);border:1px solid rgba(232,255,71,.2)">12–18 km</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px 0"><div><div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">Sem 14–16</div><div style="font-size:13px;font-weight:600;margin-top:2px">Taper</div></div><div style="font-size:12px;color:var(--text-muted)">Reducir volumen 40%. Hills solo sem 14. Sem 15–16 plano suave. Llegar descansada el 23 ago.</div><span class="tag" style="background:rgba(74,255,160,.1);color:var(--green);border:1px solid rgba(74,255,160,.2)">Race Day</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Plantilla semanal típica</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px">
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Lun</div><div style="background:rgba(71,184,255,.1);border:1px solid rgba(71,184,255,.2);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--accent3)">Run+Hills<br>Core<br>Rehab</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Mar</div><div style="background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.2);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--purple)">Upper A</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Mié</div><div style="background:rgba(71,184,255,.1);border:1px solid rgba(71,184,255,.2);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--accent3)">Run<br>moderado</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Jue</div><div style="background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.2);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--purple)">Lower</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Vie</div><div style="background:rgba(74,255,160,.08);border:1px solid rgba(74,255,160,.15);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--green)">Upper B<br>Core<br>Rehab</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Sáb</div><div style="background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--accent)">Long run</div></div>
+      <div style="text-align:center"><div style="font-size:10px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px">Dom</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;font-size:10px;color:var(--text-dim)">Descanso</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="content" id="tab-schedule">
+  <p class="section-title">Calendario semanal</p>
+  <p class="section-sub">16 semanas · 11 mayo – 23 agosto 2026 · Hills integrados lunes · Long run sábados</p>
+  <div class="card">
+    <div class="card-title">Progresión long run semanal</div>
+    <div style="margin-top:8px">
+      <div class="milestone-row"><span class="milestone-week">Sem 1</span><span class="milestone-km">3 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:14%"></div></div><span class="milestone-label">Run-walk · Hills 3 rondas lunes</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 2</span><span class="milestone-km">4 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:19%"></div></div><span class="milestone-label">Run-walk</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 3</span><span class="milestone-km">5 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:24%"></div></div><span class="milestone-label">Run-walk</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 4</span><span class="milestone-km">6 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:29%"></div></div><span class="milestone-label">Recovery week</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 5</span><span class="milestone-km">7 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:33%"></div></div><span class="milestone-label">Continuo · Hills 4 rondas lunes</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 6</span><span class="milestone-km">8 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:38%"></div></div><span class="milestone-label">Base aeróbica</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 7</span><span class="milestone-km">10 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:48%"></div></div><span class="milestone-label">Base aeróbica</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 8</span><span class="milestone-km">10 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:48%"></div></div><span class="milestone-label">Recovery week</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 9</span><span class="milestone-km">12 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:57%"></div></div><span class="milestone-label">Build · Primer gel · Hills 5 rondas</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 10</span><span class="milestone-km">13 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:62%"></div></div><span class="milestone-label">Build</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 11</span><span class="milestone-km">15 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:71%"></div></div><span class="milestone-label">Build</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 12</span><span class="milestone-km">16 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:76%"></div></div><span class="milestone-label">Recovery week</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 13</span><span class="milestone-km">18 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:86%"></div></div><span class="milestone-label">Peak week ⭐</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 14</span><span class="milestone-km">14 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:67%;background:var(--accent2)"></div></div><span class="milestone-label">Taper</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 15</span><span class="milestone-km">10 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:48%;background:var(--accent2)"></div></div><span class="milestone-label">Taper</span></div>
+      <div class="milestone-row"><span class="milestone-week">Sem 16</span><span class="milestone-km" style="color:var(--green)">21 km</span><div class="milestone-bar-track"><div class="milestone-bar-fill" style="width:100%;background:var(--green)"></div></div><span class="milestone-label" style="color:var(--green);font-weight:600">🏁 CARRERA</span></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">01</span><div><div class="phase-name">Fase 1 — Rebuilding</div><div class="phase-weeks">Sem 1–4 · 11 mayo – 7 junio</div></div></div><div style="display:flex;align-items:center;gap:8px"><span class="phase-badge" style="color:var(--accent3);border-color:rgba(71,184,255,.3);background:rgba(71,184,255,.08)">2–6 km long run</span><span class="phase-arrow">▾</span></div></div>
+    <div class="phase-body">
+      <div class="info-box"><div class="info-box-title">Hills lunes: 1km calentamiento + 3 rondas sendero (3km) + 1km enfriamiento = 5km total. Run-walk en subidas.</div></div>
+      <div style="overflow-x:auto"><table class="sched-table"><thead><tr><th class="sched-th" style="width:50px">Sem</th><th class="sched-th">Lun</th><th class="sched-th">Mar</th><th class="sched-th">Mié</th><th class="sched-th">Jue</th><th class="sched-th">Vie</th><th class="sched-th">Sáb</th><th class="sched-th">Dom</th></tr></thead>
+      <tbody>
+        <tr><td class="sched-td c-week">S1</td><td class="sched-td c-run">🏃 5km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 2.5km<br>Run-walk</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 3km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S2</td><td class="sched-td c-run">🏃 5km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 2.5km<br>Run-walk</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 4km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S3</td><td class="sched-td c-run">🏃 5km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 3km<br>Run-walk</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 5km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S4 🔄</td><td class="sched-td c-run">🏃 3km suave<br>Hills corto<br>+ Core + Rehab</td><td class="sched-td c-str">💪 Upper A<br>ligero</td><td class="sched-td c-rest">😴 Descanso</td><td class="sched-td c-str">💪 Lower<br>ligero</td><td class="sched-td c-str">💪 Upper B<br>ligero + Rehab</td><td class="sched-td c-run">🏃 6km<br>Recovery</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">02</span><div><div class="phase-name">Fase 2 — Base Aeróbica</div><div class="phase-weeks">Sem 5–8 · 8 junio – 5 julio</div></div></div><div style="display:flex;align-items:center;gap:8px"><span class="phase-badge" style="color:var(--purple);border-color:rgba(180,122,255,.3);background:rgba(180,122,255,.08)">6–12 km long run</span><span class="phase-arrow">▾</span></div></div>
+    <div class="phase-body">
+      <div class="info-box"><div class="info-box-title">Hills lunes: 1km calentamiento + 4 rondas sendero (4km) + 1km enfriamiento = 6km total. Ya sin run-walk en subidas.</div></div>
+      <div style="overflow-x:auto"><table class="sched-table"><thead><tr><th class="sched-th" style="width:50px">Sem</th><th class="sched-th">Lun</th><th class="sched-th">Mar</th><th class="sched-th">Mié</th><th class="sched-th">Jue</th><th class="sched-th">Vie</th><th class="sched-th">Sáb</th><th class="sched-th">Dom</th></tr></thead>
+      <tbody>
+        <tr><td class="sched-td c-week">S5</td><td class="sched-td c-run">🏃 6km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 4km<br>fácil</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 7km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S6</td><td class="sched-td c-run">🏃 6km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 5km<br>moderado</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 8km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S7</td><td class="sched-td c-run">🏃 6km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 5km<br>moderado</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-str">💪 Upper B<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 10km<br>Long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S8 🔄</td><td class="sched-td c-run">🏃 4km Hills<br>suave<br>+ Core + Rehab</td><td class="sched-td c-str">💪 Upper A<br>ligero</td><td class="sched-td c-rest">😴 Descanso</td><td class="sched-td c-str">💪 Lower<br>ligero</td><td class="sched-td c-str">💪 Upper B<br>ligero + Rehab</td><td class="sched-td c-run">🏃 10km<br>Recovery</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">03</span><div><div class="phase-name">Fase 3 — Build</div><div class="phase-weeks">Sem 9–13 · 6 julio – 9 agosto</div></div></div><div style="display:flex;align-items:center;gap:8px"><span class="phase-badge" style="color:var(--accent);border-color:rgba(232,255,71,.3);background:rgba(232,255,71,.08)">12–18 km long run</span><span class="phase-arrow">▾</span></div></div>
+    <div class="phase-body">
+      <div class="info-box"><div class="info-box-title">Hills lunes: 1km calentamiento + 5 rondas (5km) + 1km enfriamiento = 7km. Sem 9: primer gel a los 7-8km del long run. Fuerza baja a 2x/sem (Upper A + Lower). Se elimina Upper B.</div></div>
+      <div style="overflow-x:auto"><table class="sched-table"><thead><tr><th class="sched-th" style="width:50px">Sem</th><th class="sched-th">Lun</th><th class="sched-th">Mar</th><th class="sched-th">Mié</th><th class="sched-th">Jue</th><th class="sched-th">Vie</th><th class="sched-th">Sáb</th><th class="sched-th">Dom</th></tr></thead>
+      <tbody>
+        <tr><td class="sched-td c-week">S9 🍯</td><td class="sched-td c-run">🏃 7km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 5km<br>tempo</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 12km<br>Long run<br>+ 1 gel prueba</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S10</td><td class="sched-td c-run">🏃 7km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 6km<br>tempo</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 13km<br>Long run + gel</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S11</td><td class="sched-td c-run">🏃 7km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 7km<br>fartlek</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 15km<br>Long run + gel</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S12 🔄</td><td class="sched-td c-run">🏃 4km suave<br>+ Core + Rehab</td><td class="sched-td c-str">💪 Upper A<br>ligero</td><td class="sched-td c-rest">😴 Descanso</td><td class="sched-td c-str">💪 Lower<br>ligero</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 16km<br>Recovery run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S13 ⭐</td><td class="sched-td c-run">🏃 7km Hills<br>+ Core<br>+ Rehab tibial</td><td class="sched-td c-str">💪 Upper A</td><td class="sched-td c-run">🏃 8km<br>tempo</td><td class="sched-td c-str">💪 Lower</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 18km<br>PEAK RUN + gel</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">04</span><div><div class="phase-name">Fase 4 — Taper & Carrera</div><div class="phase-weeks">Sem 14–16 · 10–23 agosto</div></div></div><div style="display:flex;align-items:center;gap:8px"><span class="phase-badge" style="color:var(--green);border-color:rgba(74,255,160,.3);background:rgba(74,255,160,.08)">🏁 Race Day</span><span class="phase-arrow">▾</span></div></div>
+    <div class="phase-body">
+      <div class="info-box"><div class="info-box-title">Hills solo sem 14 (suaves). Sem 15–16 sin hills, solo plano muy suave. El tibial necesita recuperarse para la carrera.</div></div>
+      <div style="overflow-x:auto"><table class="sched-table"><thead><tr><th class="sched-th" style="width:50px">Sem</th><th class="sched-th">Lun</th><th class="sched-th">Mar</th><th class="sched-th">Mié</th><th class="sched-th">Jue</th><th class="sched-th">Vie</th><th class="sched-th">Sáb</th><th class="sched-th">Dom</th></tr></thead>
+      <tbody>
+        <tr><td class="sched-td c-week">S14</td><td class="sched-td c-run">🏃 5km Hills<br>suave<br>+ Core + Rehab</td><td class="sched-td c-str">💪 Upper A<br>ligero</td><td class="sched-td c-run">🏃 5km<br>moderado</td><td class="sched-td c-str">💪 Lower<br>ligero</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 14km<br>Taper long run</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S15</td><td class="sched-td c-run">🏃 4km plano<br>fácil<br>+ Core + Rehab</td><td class="sched-td c-str">💪 Upper A<br>muy ligero</td><td class="sched-td c-run">🏃 4km<br>fácil</td><td class="sched-td c-rest">😴 Descanso</td><td class="sched-td c-rest">😴 Descanso<br>+ Rehab tibial</td><td class="sched-td c-run">🏃 10km<br>Taper</td><td class="sched-td c-rest">😴 Descanso</td></tr>
+        <tr><td class="sched-td c-week">S16 🏁</td><td class="sched-td c-run">🏃 3km<br>muy suave</td><td class="sched-td c-rest">😴 Stretching</td><td class="sched-td c-run">🏃 2km<br>activación</td><td class="sched-td c-rest">😴 Descanso</td><td class="sched-td c-rest">😴 Prepara<br>bolsa de carrera</td><td class="sched-td c-rest">😴 Duerme<br>bien</td><td class="sched-td c-race">🏁 21KM<br>RACE DAY</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- STRENGTH -->
+<div class="content" id="tab-strength">
+  <p class="section-title">Programa de Fuerza</p>
+  <p class="section-sub">Upper/Lower Split · Haz clic en cualquier ejercicio subrayado para ver cómo se hace en video</p>
+  <div class="info-box"><div class="info-box-title">Estructura semanal de fuerza + core</div><p><strong style="color:var(--text)">Martes</strong> → Upper A · <strong style="color:var(--text)">Jueves</strong> → Lower · <strong style="color:var(--text)">Viernes</strong> → Upper B + Core + Rehab tibial · <strong style="color:var(--text)">Lunes</strong> → Core + Rehab tibial (post-run, en casa con yoga mat)</p></div>
+
+  <div class="phase" style="margin-top:16px">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">A</span><div><div class="phase-name">Upper Body A — Martes</div><div class="phase-weeks">Empuje + tirón + espalda baja · ~45 min · Gym apartamento</div></div></div><span class="phase-arrow">▾</span></div>
+    <div class="phase-body">
+      <table class="ex-table"><thead><tr><th>Ejercicio</th><th>Series × Reps</th><th>Peso / Notas</th><th>Músculo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name" onclick="openVideo('Press de hombro con mancuernas','EAACgFAUoAo','Sentada o parada, mancuernas a la altura de los hombros, empuja hacia arriba. Baja controlado. Espalda recta en todo momento.')">Press de hombro mancuernas</span></td><td><span class="ex-sets">3×10–12</span></td><td>10-15 lb, progresar</td><td>Deltoides, tríceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Remo con mancuerna 1 brazo','XAQZiXyU6xo','Rodilla y mano en banco, espalda paralela al suelo. Jala la mancuerna hacia la cadera, codo pegado al cuerpo. No rotar el torso.')">Remo mancuerna 1 brazo</span></td><td><span class="ex-sets">3×10–12</span></td><td>15-25 lb</td><td>Espalda, bíceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Press de pecho en banco','VmB1G1K7v94','Acostada en banco, mancuernas a los lados del pecho. Empuja hacia arriba y baja controlado hasta sentir estiramiento.')">Press de pecho en banco</span></td><td><span class="ex-sets">3×10–12</span></td><td>15-20 lb c/mano</td><td>Pectoral, tríceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Jalón al pecho — polea alta','YBIP5JCMQ5A','Agarra la barra por encima, jala hacia el pecho manteniendo el pecho arriba. No jalones detrás del cuello.')">Jalón al pecho (polea)</span></td><td><span class="ex-sets">3×10–12</span></td><td>Máquina del gym</td><td>Dorsal, bíceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Curl de bíceps con mancuernas','ykJmrZ5v0Oo','Codos pegados al torso, sube la mancuerna girando la muñeca. Baja lento. No balancees el torso.')">Curl de bíceps</span></td><td><span class="ex-sets">2×12–15</span></td><td>10-15 lb</td><td>Bíceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Extensión de tríceps','_gsUck-7M74','Con mancuerna sobre la cabeza, codos al frente, baja el peso detrás de la cabeza lentamente.')">Extensión tríceps</span></td><td><span class="ex-sets">2×12–15</span></td><td>Polea o mancuerna</td><td>Tríceps</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Superman — espalda baja','z6PJMT2y8GQ','Boca abajo, brazos al frente. Levanta simultáneamente brazos y piernas del suelo. Sostén 2 seg. Baja controlado.')">Superman — Espalda baja</span></td><td><span class="ex-sets">3×12–15</span></td><td>Sin peso, lento y controlado</td><td>Espalda baja, glúteos</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Bird Dog — espalda baja y core','wiFNA3sqjCA','En cuatro puntos, extiende brazo derecho y pierna izquierda simultáneamente. Cadera nivelada. Alterna lados.')">Bird Dog — Espalda baja</span></td><td><span class="ex-sets">3×10 c/lado</span></td><td>Sin peso, estabiliza bien</td><td>Espalda baja, core</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">B</span><div><div class="phase-name">Lower Body — Jueves</div><div class="phase-weeks">Piernas + glúteos + espalda baja · ~50 min</div></div></div><span class="phase-arrow">▾</span></div>
+    <div class="phase-body">
+      <div class="alert"><div class="alert-title">⚠️ Tibial Posterior</div><p>Si sientes dolor agudo en algún ejercicio, reduce peso o rango. El rehab tibial está en lunes y viernes, no aquí.</p></div>
+      <table class="ex-table"><thead><tr><th>Ejercicio</th><th>Series × Reps</th><th>Peso / Notas</th><th>Músculo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name" onclick="openVideo('Sentadilla goblet','MxsFDhcyFyE','Mancuerna vertical con ambas manos frente al pecho. Baja hasta que muslos queden paralelos al suelo. Talones siempre en el suelo.')">Sentadilla goblet</span></td><td><span class="ex-sets">3×10–12</span></td><td>20-30 lb, espalda recta</td><td>Cuádriceps, glúteos</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Peso muerto rumano RDL','JCXUYuzwNrM','Bisagra de cadera (no doblar rodillas mucho). Baja las mancuernas pegadas a las piernas. Sentir estiramiento en isquios. Espalda recta siempre.')">Peso muerto rumano (RDL)</span></td><td><span class="ex-sets">3×10–12</span></td><td>20-25 lb c/mano</td><td>Isquios, glúteos</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Zancadas con mancuernas','D7KaRcUTQeE','Paso adelante largo, baja la rodilla trasera casi al suelo. Rodilla delantera no sobrepase la punta del pie.')">Zancadas con mancuernas</span></td><td><span class="ex-sets">3×10 c/lado</span></td><td>10-15 lb c/mano</td><td>Cuádriceps, glúteos</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Glute Bridge — elevación de cadera','OUgsJ8-Vi0E','Acostada, rodillas dobladas. Empuja la cadera hacia arriba apretando glúteos. Sostén 1 seg arriba. Baja controlado.')">Glute Bridge</span></td><td><span class="ex-sets">3×15</span></td><td>Mancuerna en cadera</td><td>Glúteos, isquios</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Abducción de cadera','5VABptEZgBk','En máquina o con banda, separa las rodillas hacia afuera contra la resistencia. Lento y controlado.')">Abducción de cadera</span></td><td><span class="ex-sets">3×15</span></td><td>Peso moderado</td><td>Glúteo medio</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Calf raise — elevación de talón','gwLzBv6hDEI','Sube en puntas de pie lentamente (2 seg subir, 3 seg bajar). Hacerlo en el borde de un escalón da más rango.')">Calf raise</span></td><td><span class="ex-sets">3×20</span></td><td>Con o sin peso. Muy lento</td><td>Gastrocnemio, sóleo</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Extensión de espalda baja','AeZqqYCsw-4','Bisagra en la cadera, baja el torso y sube hasta quedar alineada. No hiperextendas. Sostén 1 seg arriba.')">Extensión espalda baja</span></td><td><span class="ex-sets">3×12</span></td><td>Sin peso o disco ligero</td><td>Espalda baja, glúteos</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">C</span><div><div class="phase-name">Upper Body B + Core — Viernes</div><div class="phase-weeks">Variante + core + rehab tibial · ~50 min · Gym apartamento o en casa</div></div></div><span class="phase-arrow">▾</span></div>
+    <div class="phase-body">
+      <table class="ex-table"><thead><tr><th>Ejercicio</th><th>Series × Reps</th><th>Peso / Notas</th><th>Músculo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name" onclick="openVideo('Press inclinado con mancuernas','DbFgADa26Tw','Banco a 30-45°. Igual que press plano pero activa más la parte superior del pectoral.')">Press inclinado</span></td><td><span class="ex-sets">3×10–12</span></td><td>15-20 lb c/mano</td><td>Pectoral superior</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Remo bent-over con mancuernas','pYcpY20QaE8','Inclinada hacia adelante ~45°, espalda recta. Jala ambas mancuernas hacia las caderas. Codos cerca del cuerpo.')">Remo bent-over</span></td><td><span class="ex-sets">3×10–12</span></td><td>15-20 lb c/mano</td><td>Espalda media</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Elevación lateral con mancuernas','FeJYwXa_w8Y','Brazos ligeramente doblados. Sube las mancuernas hacia los lados hasta altura de hombros. Baja lento. Sin impulso.')">Elevación lateral</span></td><td><span class="ex-sets">3×12–15</span></td><td>5-10 lb, sin balanceo</td><td>Deltoides lateral</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Face pull con polea o banda','rep1-C9BkFo','Polea o banda a la altura de la cara. Jala hacia los ojos separando las manos. Los codos van hacia afuera y arriba.')">Face pull</span></td><td><span class="ex-sets">3×15</span></td><td>Peso muy liviano</td><td>Deltoides posterior</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Push-ups — flexiones','IODxDxX7oi4','Manos al ancho de hombros, cuerpo recto. Baja hasta que el pecho casi toque el suelo. Con rodillas si necesitas.')">Push-ups</span></td><td><span class="ex-sets">3×10–15</span></td><td>Rodillas si necesitas</td><td>Pectoral, core</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Plancha','ASdvN_XEl_c','Codos bajo los hombros, cuerpo recto. Aprieta abdomen, glúteos y cuádriceps. No dejes caer la cadera.')">Plancha — Core</span></td><td><span class="ex-sets">3×30–45 seg</span></td><td>Yoga mat</td><td>Core completo</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Dead Bug — core profundo','4XLEnwUr1d8','Acostada, brazos al techo, rodillas a 90°. Baja brazo derecho + pierna izquierda sin despegar la espalda. Alterna.')">Dead Bug — Core</span></td><td><span class="ex-sets">3×8 c/lado</span></td><td>Yoga mat. Muy lento</td><td>Core profundo</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Crunches en Swiss ball','e-VqhJVbysg','Siéntate en el ball y camina hasta que la espalda baja quede sobre la pelota. Curva el torso hacia adelante.')">Crunches en Swiss ball — Core</span></td><td><span class="ex-sets">3×15</span></td><td>Tu Swiss ball de casa</td><td>Abdominales</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Superman — espalda baja viernes','z6PJMT2y8GQ','Boca abajo, levanta brazos y piernas. Progresión: añade mancuernas pequeñas cuando lo domines.')">Superman — Espalda baja</span></td><td><span class="ex-sets">3×12–15</span></td><td>Sin peso o muy leve</td><td>Espalda baja, glúteos</td></tr>
+      </tbody></table>
+      <div style="margin-top:14px;background:rgba(255,107,74,.06);border:1px solid rgba(255,107,74,.2);border-left:3px solid var(--accent2);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--text-muted)"><strong style="color:var(--accent2)">Después del Upper B:</strong> Rehab tibial completo. Ver pestaña <strong style="color:var(--text)">Tibial Rehab</strong>.</div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">D</span><div><div class="phase-name">Core — Lunes (post-run)</div><div class="phase-weeks">Después de correr + hills · ~15 min · En casa con yoga mat</div></div></div><span class="phase-arrow">▾</span></div>
+    <div class="phase-body">
+      <div class="info-box"><div class="info-box-title">Lunes en casa: post-run, antes de ducharte</div><p>Tienes yoga mat y Swiss ball. Este bloque va después del run del lunes. Rápido y efectivo. Después del core: rehab tibial completo.</p></div>
+      <table class="ex-table"><thead><tr><th>Ejercicio</th><th>Series × Reps</th><th>Notas</th><th>Músculo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name" onclick="openVideo('Plancha','ASdvN_XEl_c','Codos bajo los hombros, cuerpo recto. Aprieta abdomen y glúteos.')">Plancha</span></td><td><span class="ex-sets">3×30–45 seg</span></td><td>Yoga mat</td><td>Core completo</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Dead Bug — core profundo','4XLEnwUr1d8','Baja brazo + pierna opuesta sin despegar la espalda del suelo. Exhala al bajar.')">Dead Bug</span></td><td><span class="ex-sets">3×8 c/lado</span></td><td>Yoga mat, muy lento</td><td>Core profundo</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Bird Dog — espalda baja y core','wiFNA3sqjCA','Cuatro puntos, extiende brazo y pierna opuestos. Mantén cadera nivelada.')">Bird Dog</span></td><td><span class="ex-sets">3×10 c/lado</span></td><td>Yoga mat</td><td>Espalda baja, core</td></tr>
+        <tr><td><span class="ex-name" onclick="openVideo('Superman — espalda baja','z6PJMT2y8GQ','Boca abajo, levanta brazos y piernas simultáneamente. Sostén 2 seg.')">Superman</span></td><td><span class="ex-sets">3×12</span></td><td>Yoga mat</td><td>Espalda baja</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- RUNNING -->
+<div class="content" id="tab-running">
+  <p class="section-title">Plan de Running</p>
+  <p class="section-sub">Run-walk → continuo → 21km · Hills integrados lunes · Long run sábados</p>
+  <div class="grid-2">
+    <div class="card" style="border-top:2px solid var(--accent3)">
+      <div class="card-title">Ritmos de entrenamiento</div>
+      <ul class="plan-list">
+        <li><span class="bullet" style="background:rgba(71,184,255,.1);color:var(--accent3)">E</span><div><strong style="color:var(--text)">Easy (fácil):</strong> Puedes hablar sin dificultad. 60-70% esfuerzo. El 80% de tu entrenamiento debe ser así.</div></li>
+        <li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">M</span><div><strong style="color:var(--text)">Moderado:</strong> Puedes hablar con esfuerzo. 70-80%. Long runs y miércoles Fase 2.</div></li>
+        <li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">T</span><div><strong style="color:var(--text)">Tempo:</strong> Difícil hablar. 80-88%. Solo 20-25 min del total. Desde semana 9.</div></li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:2px solid var(--green)">
+      <div class="card-title">Hill repeats — Km por fase</div>
+      <ul class="plan-list">
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">F1</span><div><strong style="color:var(--text)">Sem 1–4:</strong> 1km calentamiento + 3km sendero (3 rondas) + 1km enfriamiento = 5km. Run-walk en subidas.</div></li>
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">F2</span><div><strong style="color:var(--text)">Sem 5–8:</strong> 1km + 4km sendero (4 rondas) + 1km = 6km. Subir corriendo continuo.</div></li>
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">F3</span><div><strong style="color:var(--text)">Sem 9–13:</strong> 1km + 5km sendero (5 rondas) + 1km = 7km. Subir fuerte, bajar controlado.</div></li>
+        <li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">F4</span><div><strong style="color:var(--text)">Sem 14:</strong> Solo hills suaves. Sem 15–16: sin hills, solo plano. Tibial necesita recuperarse.</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Los hills y el tibial posterior</div>
+    <ul class="plan-list">
+      <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">✓</span><div><strong style="color:var(--text)">Las subidas ayudan.</strong> Activan el tibial posterior de forma excéntrica controlada. Fortalecen toda la cadena del tobillo. Es parte del rehab.</div></li>
+      <li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">!</span><div><strong style="color:var(--text)">Las bajadas: ahí está el riesgo.</strong> Generan más impacto en el tibial. Baja siempre a ritmo controlado, pasos cortos, nunca a toda velocidad.</div></li>
+      <li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">→</span><div><strong style="color:var(--text)">Regla:</strong> Si el dolor tibial aumenta progresivamente durante las bajadas, termina los hills ese día y haz el resto en plano.</div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- REHAB -->
+<div class="content" id="tab-rehab">
+  <p class="section-title">Tibial Posterior — Protocolo Rehab</p>
+  <p class="section-sub">Fortalecimiento excéntrico + estiramientos · Lunes post-run y Viernes post-Upper B · En casa con yoga mat</p>
+  <div class="alert"><div class="alert-title">🔴 STOP — Consulta fisioterapeuta si:</div><p>Dolor agudo 7+/10 · Dolor que no mejora con descanso · Hinchazón visible · Cambias tu forma de caminar para compensar · Dolor que se extiende hacia arriba.</p></div>
+  <div class="info-box"><div class="info-box-title">Cuándo hacer el protocolo</div><p><strong style="color:var(--text)">Lunes:</strong> post-run + core → rehab tibial completo en casa (yoga mat disponible, tienes tiempo). <strong style="color:var(--text)">Viernes:</strong> post-Upper B → rehab tibial completo. Son los días con más tiempo disponible después del trabajo.</p></div>
+  <p class="section-title" style="font-size:20px;margin-bottom:16px">Fortalecimiento</p>
+  <div class="rehab-grid">
+    <div class="rehab-card"><h4>1. Calf raise excéntrico unilateral</h4><p>El más importante. Sube con dos pies, baja con UNO muy lento (3-4 seg). Siente el músculo trabajar al bajar. En el borde de un escalón si puedes.</p><div class="rehab-sets">3×10–15 reps c/lado · Lunes y Viernes</div></div>
+    <div class="rehab-card"><h4>2. Inversión de tobillo con banda</h4><p>Sentada, banda alrededor del pie anclada lateralmente. Gira el pie hacia adentro contra la resistencia. Lento. Sin banda: dibuja el abecedario con el pie.</p><div class="rehab-sets">3×15 reps c/lado · Lunes y Viernes</div></div>
+    <div class="rehab-card"><h4>3. Towel scrunch</h4><p>Descalza, toalla en el suelo, arrugala con los dedos del pie. Activa el arco plantar y los músculos intrínsecos del pie.</p><div class="rehab-sets">3×30 seg c/pie · Diario</div></div>
+    <div class="rehab-card"><h4>4. Single leg balance</h4><p>Párate en un pie 30-60 seg. Ojos abiertos primero, luego cerrados cuando mejores. Activa toda la cadena de estabilización.</p><div class="rehab-sets">3×30–60 seg c/lado · Diario</div></div>
+    <div class="rehab-card"><h4>5. Heel walk</h4><p>Camina 20 metros con la punta del pie levantada, solo talones en el suelo. Activa el tibial anterior y fortalece toda la zona inferior.</p><div class="rehab-sets">3×20 metros · Lunes y Viernes</div></div>
+    <div class="rehab-card"><h4>6. Toe walk</h4><p>Camina 20 metros en puntas de pie. Activa el complejo del tobillo y sóleo. Complementa el heel walk perfectamente.</p><div class="rehab-sets">3×20 metros · Lunes y Viernes</div></div>
+  </div>
+  <p class="section-title" style="font-size:20px;margin-top:32px;margin-bottom:16px">Estiramientos</p>
+  <div class="rehab-grid">
+    <div class="rehab-card"><h4>Pantorrilla — gastrocnemio</h4><p>Contra la pared, pierna trasera estirada, talón en el suelo, rodilla recta. Mantén.</p><div class="rehab-sets">3×45 seg c/lado · Lunes y Viernes</div></div>
+    <div class="rehab-card"><h4>Sóleo</h4><p>Igual que el anterior pero dobla levemente la rodilla trasera. Estira más profundo.</p><div class="rehab-sets">3×45 seg c/lado · Lunes y Viernes</div></div>
+    <div class="rehab-card"><h4>Masaje plantar</h4><p>Pelota de tenis bajo el pie, aplica presión y rueda suavemente. Atención especial al arco interno.</p><div class="rehab-sets">2 min c/pie · Diario</div></div>
+    <div class="rehab-card"><h4>Estiramiento tibial posterior</h4><p>En el borde de un escalón (arco hacia afuera), deja que el peso caiga suavemente hacia el arco interno. Muy suave.</p><div class="rehab-sets">2×30 seg c/lado · Lunes y Viernes</div></div>
+  </div>
+</div>
+
+<!-- NUTRITION -->
+<div class="content" id="tab-nutrition">
+  <p class="section-title">Guía de Nutrición</p>
+  <p class="section-sub">Body recomposition · 2,050 kcal/día · 135g+ proteína</p>
+  <div class="info-box"><div class="info-box-title">Tu estimación calórica</div><p><strong style="color:var(--text)">BMR:</strong> ~1,620 kcal · <strong style="color:var(--text)">TDEE con actividad:</strong> ~2,350-2,450 kcal · <strong style="color:var(--text)">Objetivo (déficit moderado):</strong> ~2,050 kcal. Tu estimación anterior de 1,600-1,700 era demasiado baja para entrenar para un half marathon.</p></div>
+  <div class="card">
+    <div class="card-title">Macros diarios objetivo</div>
+    <div class="macro-bar" style="margin-top:12px"><div class="macro-header"><span class="macro-name">Proteína</span><span class="macro-val">135–150g · 540–600 kcal</span></div><div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--green)"></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Prioridad #1. Necesaria para ganar músculo en déficit. Llega aquí SIEMPRE.</div></div>
+    <div class="macro-bar"><div class="macro-header"><span class="macro-name">Carbohidratos</span><span class="macro-val">200–220g · 800–880 kcal</span></div><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--accent3)"></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Combustible para correr. Más altos los días de long run.</div></div>
+    <div class="macro-bar" style="margin-bottom:0"><div class="macro-header"><span class="macro-name">Grasas</span><span class="macro-val">55–65g · 495–585 kcal</span></div><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--accent2)"></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Necesarias para hormonas. No las elimines.</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="border-top:2px solid var(--accent)">
+      <div class="card-title">Pre-entreno (30–60 min antes)</div>
+      <ul class="plan-list">
+        <li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">✓</span><div><strong style="color:var(--text)">Tu combo actual:</strong> Banano + 2 dátiles. Excelente. Sigue con eso.</div></li>
+        <li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">✓</span><div><strong style="color:var(--text)">Alternativa:</strong> Tostada integral + mantequilla de maní.</div></li>
+        <li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">✗</span><div><strong style="color:var(--text)">Evitar:</strong> Mucha fibra, lácteos pesados, comidas copiosas justo antes de correr.</div></li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:2px solid var(--green)">
+      <div class="card-title">Post-entreno (dentro de 40 min)</div>
+      <ul class="plan-list">
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">✓</span><div><strong style="color:var(--text)">Proteína + carbos simples:</strong> La ventana anabólica. Clave para body recomp.</div></li>
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">✓</span><div><strong style="color:var(--text)">Ejemplos:</strong> Pollo + arroz · Huevos + tostada · Batido de proteína + banano.</div></li>
+        <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">✓</span><div><strong style="color:var(--text)">Mínimo:</strong> 25-30g de proteína post-entreno.</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Protocolo de geles — Para estómago delicado</div>
+    <ul class="plan-list">
+      <li><span class="bullet" style="background:rgba(71,184,255,.1);color:var(--accent3)">Sem 1-8</span><div>No necesitas geles. Tu banano + dátiles pre-entreno es suficiente para runs de 5-10km.</div></li>
+      <li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">Sem 9</span><div><strong style="color:var(--text)">Primer gel:</strong> A los 7-8km del long run de 12km. Marcas suaves: Maurten 100 (sin cafeína) o Spring Energy. Observa tu estómago 48h después.</div></li>
+      <li><span class="bullet" style="background:rgba(180,122,255,.1);color:var(--purple)">Sem 10-12</span><div>Si lo toleraste: 1 gel por long run. Si no: sigue con dátiles o plátano en bolsillo.</div></li>
+      <li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">Sem 13</span><div>Long run de 18km: practica 2 geles (km 8 y km 15). Simulacro de la carrera real.</div></li>
+      <li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">23 Ago</span><div><strong style="color:var(--text)">Solo el gel que ya probaste.</strong> Nada nuevo el día de la carrera.</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Fuentes de proteína — cómo llegar a 135g+</div>
+    <div class="food-grid">
+      <div class="food-card"><div class="food-card-label" style="color:var(--green)">Proteína animal</div><div class="food-item"><span class="food-name">Pechuga de pollo (100g cocida)</span><span class="food-prot">31g</span></div><div class="food-item"><span class="food-name">Atún en agua (1 lata)</span><span class="food-prot">25g</span></div><div class="food-item"><span class="food-name">Huevo entero</span><span class="food-prot">6g</span></div><div class="food-item"><span class="food-name">Claras de huevo (3 ud)</span><span class="food-prot">10g</span></div><div class="food-item"><span class="food-name">Res magra (100g)</span><span class="food-prot">26g</span></div><div class="food-item"><span class="food-name">Salmón (100g)</span><span class="food-prot">25g</span></div></div>
+      <div class="food-card"><div class="food-card-label" style="color:var(--accent3)">Lácteos y otros</div><div class="food-item"><span class="food-name">Yogur griego 0% (150g)</span><span class="food-prot">17g</span></div><div class="food-item"><span class="food-name">Cottage cheese (100g)</span><span class="food-prot">11g</span></div><div class="food-item"><span class="food-name">Proteína en polvo (1 scoop)</span><span class="food-prot">25g</span></div><div class="food-item"><span class="food-name">Lentejas cocidas (100g)</span><span class="food-prot">9g</span></div><div class="food-item"><span class="food-name">Edamame (100g)</span><span class="food-prot">11g</span></div><div class="food-item"><span class="food-name">Queso bajo en grasa (30g)</span><span class="food-prot">7g</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAN B -->
+<div class="content" id="tab-planb">
+  <p class="section-title">Plan B — Adaptaciones</p>
+  <p class="section-sub">La vida pasa. Nunca pierdas el long run del sábado si puedes evitarlo. Todo lo demás es negociable.</p>
+  <div class="info-box"><div class="info-box-title">Filosofía</div><p>Un entrenamiento perdido no arruina el plan. Dos o tres seguidos sí empiezan a afectar. La regla de oro: <strong style="color:var(--text)">el long run del sábado es innegociable</strong>.</p></div>
+  <div class="phase"><div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">→</span><div><div class="phase-name">Si no pude entrenar un día entre semana</div></div></div><span class="phase-arrow">▾</span></div><div class="phase-body"><ul class="plan-list"><li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">1</span><div><strong style="color:var(--text)">No lo recuperes al día siguiente.</strong> Dos entrenamientos seguidos para compensar aumenta el riesgo de lesión.</div></li><li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">2</span><div><strong style="color:var(--text)">Si perdiste fuerza:</strong> No hay problema. Prioriza el running esa semana.</div></li><li><span class="bullet" style="background:rgba(74,255,160,.1);color:var(--green)">3</span><div><strong style="color:var(--text)">Si perdiste un running day:</strong> Solo el long run del sábado. Eso es suficiente para mantener el progreso.</div></li></ul></div></div>
+  <div class="phase"><div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">→</span><div><div class="phase-name">Si no pude hacer el long run del sábado</div></div></div><span class="phase-arrow">▾</span></div><div class="phase-body"><ul class="plan-list"><li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">1</span><div><strong style="color:var(--text)">Muévelo al domingo.</strong> Primera opción siempre.</div></li><li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">2</span><div><strong style="color:var(--text)">Si tampoco el domingo:</strong> No aumentes la distancia la siguiente semana. Repite la misma.</div></li><li><span class="bullet" style="background:rgba(232,255,71,.1);color:var(--accent)">3</span><div><strong style="color:var(--text)">Más de 2 semanas sin long run:</strong> Retrocede un escalón de distancia antes de continuar.</div></li></ul></div></div>
+  <div class="phase"><div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">→</span><div><div class="phase-name">Si el tibial duele más de lo normal</div></div></div><span class="phase-arrow">▾</span></div><div class="phase-body"><ul class="plan-list"><li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">1</span><div><strong style="color:var(--text)">Escala 1-10:</strong> 1-4 → Continúa más despacio. 5-6 → Solo camina y haz rehab. 7+ → Para, hielo, fisioterapeuta.</div></li><li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">2</span><div><strong style="color:var(--text)">Sustituye por elliptical.</strong> Misma duración, cero impacto. Mantiene la base cardiovascular sin dañar el músculo.</div></li><li><span class="bullet" style="background:rgba(255,107,74,.1);color:var(--accent2)">3</span><div><strong style="color:var(--text)">Nunca corras 2 días seguidos</strong> con dolor tibial activo.</div></li></ul></div></div>
+  <div class="phase"><div class="phase-header" onclick="togglePhase(this)"><div class="phase-left"><span class="phase-num">→</span><div><div class="phase-name">Semana muy estresante o sin energía</div></div></div><span class="phase-arrow">▾</span></div><div class="phase-body"><ul class="plan-list"><li><span class="bullet" style="background:rgba(180,122,255,.1);color:var(--purple)">1</span><div><strong style="color:var(--text)">Versión mínima viable:</strong> Solo el long run del sábado + 1 sesión de fuerza. Nada más.</div></li><li><span class="bullet" style="background:rgba(180,122,255,.1);color:var(--purple)">2</span><div><strong style="color:var(--text)">Sueño &gt; entrenamiento.</strong> Si debes elegir entre madrugar o dormir tus horas, duerme. El sueño es cuando el músculo crece.</div></li></ul></div></div>
+  <div class="card">
+    <div class="card-title">Checklist semanal mínimo</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:8px">
+      <div style="background:rgba(232,255,71,.05);border:1px solid rgba(232,255,71,.15);border-radius:8px;padding:14px;text-align:center"><div style="font-size:24px;margin-bottom:6px">🏃</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Long run sábado</div><div style="font-size:11px;color:var(--text-muted)">Innegociable.</div></div>
+      <div style="background:rgba(180,122,255,.05);border:1px solid rgba(180,122,255,.15);border-radius:8px;padding:14px;text-align:center"><div style="font-size:24px;margin-bottom:6px">💪</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">1–2 días fuerza</div><div style="font-size:11px;color:var(--text-muted)">Al menos Lower Body.</div></div>
+      <div style="background:rgba(255,107,74,.05);border:1px solid rgba(255,107,74,.15);border-radius:8px;padding:14px;text-align:center"><div style="font-size:24px;margin-bottom:6px">🦵</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Rehab tibial</div><div style="font-size:11px;color:var(--text-muted)">Al menos el estiramiento.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="content" id="tab-tips">
+  <p class="section-title">Tips & Consejos</p>
+  <p class="section-sub">Todo lo que hemos hablado en un solo lugar</p>
+
+  <div class="tips-card" style="border-top:2px solid var(--green)">
+    <div class="tips-card-title">🍽️ Hambre y apetito</div>
+    <ul>
+      <li><strong style="color:var(--text)">¿Hambre real o ansia?</strong> Come 100g de pollo + brócoli. Si 15 min después sigues con hambre = hambre real. Si no = era ansia.</li>
+      <li><strong style="color:var(--text)">Horarios críticos (10am y post-trabajo):</strong> Planifica un snack proteico ANTES de que sientas hambre. Yogur griego, huevo duro o frutos secos.</li>
+      <li><strong style="color:var(--text)">Para el ansia:</strong> Agua fría + chicle sin azúcar + caminar 5 min. Ocupa las manos con rehab tibial en lugar de comer.</li>
+      <li><strong style="color:var(--text)">Come 4-5 veces pequeñas</strong> en lugar de 3 grandes. La proteína alta (135-150g) es lo más saciante que existe.</li>
+      <li><strong style="color:var(--text)">El estrés eleva el cortisol</strong> que aumenta el apetito. 5-10 min de respiración después del trabajo ayuda a controlarlo.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--accent2)">
+    <div class="tips-card-title">🚬 Post-dejar de fumar</div>
+    <ul>
+      <li>Llevas 2 meses. El pico de ansia por nicotina baja entre los 3-6 meses. Lo más difícil ya pasó.</li>
+      <li>Es completamente normal reemplazar el cigarrillo por comida temporalmente. Tu cerebro busca la misma dopamina.</li>
+      <li>El ejercicio libera dopamina y endorfinas de forma similar a la nicotina. Tu plan de entrenamiento es literalmente el mejor reemplazo.</li>
+      <li>Después de entrenar (cuando más se antoja el cigarro): ve directo al rehab tibial o estiramientos. Ocupa el tiempo de transición.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--accent3)">
+    <div class="tips-card-title">☀️ Running en calor</div>
+    <ul>
+      <li><strong style="color:var(--text)">Ventana óptima:</strong> 7:00 - 7:45am. Después de las 8am el calor cambia las condiciones.</li>
+      <li><strong style="color:var(--text)">Prioriza el bosque:</strong> Los 3km en sombra son mejores que 5km en plano con sol. Quédate en el sendero todo lo que puedas.</li>
+      <li><strong style="color:var(--text)">FC naranja en calor = normal.</strong> El corazón trabaja más para termorregularte. No es debilidad.</li>
+      <li><strong style="color:var(--text)">Si ya tienes sed intensa:</strong> Señal de deshidratación leve. Para ese día. Hidratarte bien la noche anterior lo evita.</li>
+      <li><strong style="color:var(--text)">Ropa clara y transpirable.</strong> Diferencia de 2-3°C de sensación térmica.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--purple)">
+    <div class="tips-card-title">🏃 Postura y forma al correr</div>
+    <ul>
+      <li><strong style="color:var(--text)">Ahora mismo:</strong> Corre con la planta completa del pie (midfoot). No intentes volver al forefoot strike hasta que el tibial esté más fuerte.</li>
+      <li><strong style="color:var(--text)">Postura:</strong> Cabeza erguida mirando al frente, hombros relajados, brazos a 90°, ligera inclinación hacia adelante.</li>
+      <li><strong style="color:var(--text)">Cuando la postura cae al fatigarte:</strong> Señal de que terminaste ese intervalo. Camina 1 min, recupera la postura, continúa.</li>
+      <li><strong style="color:var(--text)">Core fuerte = mejor postura al correr.</strong> Por eso el core de lunes y viernes es importante para la carrera.</li>
+      <li><strong style="color:var(--text)">En las bajadas del bosque:</strong> Pasos cortos y rápidos, nunca zancadas largas. Baja controlada siempre.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--accent)">
+    <div class="tips-card-title">⚖️ Body recomposition y báscula</div>
+    <ul>
+      <li><strong style="color:var(--text)">No te peses diariamente.</strong> El peso fluctúa 1-2 kg por agua, glucógeno, digestión. Máximo 1 vez/semana, mismo día y hora (mañana, antes de desayunar).</li>
+      <li><strong style="color:var(--text)">La báscula no mide body recomp.</strong> Mide mejor con: cómo te queda la ropa, fotos de progreso mensuales, medidas de cintura/cadera.</li>
+      <li><strong style="color:var(--text)">Subir 0.6 lb en una semana:</strong> Probablemente es agua + glucógeno muscular, no grasa. Normal cuando empiezas un plan nuevo.</li>
+      <li><strong style="color:var(--text)">Cambios visibles:</strong> Semana 7-10. Primero sientes más fuerza y resistencia, luego viene la composición visual.</li>
+      <li><strong style="color:var(--text)">Tracking 3 días:</strong> Un día de oficina, uno home office, uno descanso. Confirma si realmente estás en 2,050 kcal.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--accent2)">
+    <div class="tips-card-title">❤️ Salud cardiovascular — Prevenir hipertensión</div>
+    <ul>
+      <li>El entrenamiento aeróbico (running) es la intervención más efectiva para reducir la presión arterial. Lo que estás haciendo es exactamente correcto.</li>
+      <li>Fuerza 3x/semana complementa el efecto cardiovascular. Combinado con running, el impacto es mayor que solo cardio.</li>
+      <li><strong style="color:var(--text)">Sodio:</strong> Reduce ultraprocesados. No elimines la sal de cocina (la necesitas para el running), pero sí el sodio escondido en procesados.</li>
+      <li><strong style="color:var(--text)">Potasio:</strong> Tu banano pre-entreno ya ayuda. Añade aguacate, espinaca, frijoles y camote a tu dieta regular.</li>
+      <li><strong style="color:var(--text)">Monitoreo:</strong> Mídete la presión 1 vez/mes si tienes tensiómetro en casa, o pídele a tu médico que te la revise.</li>
+    </ul>
+  </div>
+
+  <div class="tips-card" style="border-top:2px solid var(--accent3)">
+    <div class="tips-card-title">⌚ Garmin Forerunner 970</div>
+    <ul>
+      <li><strong style="color:var(--text)">Configurar FCmáx real:</strong> Configuración → Perfiles de usuario → Frecuencia cardíaca máxima. Para mujeres: 226 - (0.62 × 26) ≈ 210 bpm. Las zonas se recalculan solas.</li>
+      <li><strong style="color:var(--text)">Test de FCmáx:</strong> Corre 20 min, los últimos 8 al máximo. El valor más alto que veas = tu FCmáx real.</li>
+      <li><strong style="color:var(--text)">Zona naranja en calor:</strong> No es alarma. Es el costo fisiológico de entrenar con calor. Si hay mucha sed encima, para igual.</li>
+      <li><strong style="color:var(--text)">Usa el GPS para medir el sendero:</strong> Así sabes exactamente cuántos km mide tu ruta de hills y puedes controlar las repeticiones con precisión.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function showTab(name, btn){
+  document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function togglePhase(header){
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+function openVideo(title, youtubeId, desc){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalVideo').src = 'https://www.youtube.com/embed/'+youtubeId+'?autoplay=1';
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('videoModal').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('videoModal').classList.remove('open');
+  document.getElementById('modalVideo').src='';
+}
+document.getElementById('videoModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
+<!-- EXERCISE ANIMATION PATCH -->
+<script>
+// Replace openVideo with animated stick figure demos
+const exercises = {
+  "Press de hombro con mancuernas": {
+    desc: "Sentada, mancuernas a la altura de los hombros. Empuja hacia arriba hasta casi extender los codos. Baja controlado. Espalda recta en todo momento.",
+    muscles: "Deltoides · Tríceps",
+    anim: "shoulder_press"
+  },
+  "Remo con mancuerna 1 brazo": {
+    desc: "Rodilla y mano apoyadas en el banco, espalda paralela al suelo. Jala la mancuerna hacia la cadera, codo pegado al cuerpo. No rotar el torso.",
+    muscles: "Dorsal · Bíceps · Romboides",
+    anim: "row_1arm"
+  },
+  "Press de pecho en banco": {
+    desc: "Acostada en banco, mancuernas a los lados del pecho, codos a ~45°. Empuja hacia arriba y baja controlado hasta sentir estiramiento en el pecho.",
+    muscles: "Pectoral · Tríceps · Deltoides anterior",
+    anim: "bench_press"
+  },
+  "Jalón al pecho — polea alta": {
+    desc: "Agarra la barra por encima de la cabeza. Jala hacia el pecho manteniendo el pecho arriba. No jales detrás del cuello.",
+    muscles: "Dorsal ancho · Bíceps · Romboides",
+    anim: "lat_pulldown"
+  },
+  "Curl de bíceps con mancuernas": {
+    desc: "Codos pegados al torso, sube la mancuerna girando la muñeca hacia afuera. Baja lento. No balancees el torso.",
+    muscles: "Bíceps",
+    anim: "bicep_curl"
+  },
+  "Extensión de tríceps": {
+    desc: "Con mancuerna sobre la cabeza, codos apuntando al frente. Baja el peso detrás de la cabeza lentamente. Sube controlado.",
+    muscles: "Tríceps",
+    anim: "tricep_ext"
+  },
+  "Superman — espalda baja": {
+    desc: "Boca abajo, brazos extendidos al frente. Levanta simultáneamente brazos y piernas del suelo. Sostén 2 segundos. Baja controlado.",
+    muscles: "Espalda baja · Glúteos · Isquios",
+    anim: "superman"
+  },
+  "Superman — espalda baja viernes": {
+    desc: "Boca abajo, brazos extendidos al frente. Levanta brazos y piernas simultáneamente. Sostén 2 segundos. Baja controlado. Progresión: añade mancuernas.",
+    muscles: "Espalda baja · Glúteos · Isquios",
+    anim: "superman"
+  },
+  "Bird Dog — espalda baja y core": {
+    desc: "En cuatro puntos de apoyo, extiende el brazo derecho y la pierna izquierda simultáneamente. Mantén la cadera nivelada. Alterna lados. Es estabilización, no velocidad.",
+    muscles: "Espalda baja · Core · Glúteos",
+    anim: "bird_dog"
+  },
+  "Sentadilla goblet": {
+    desc: "Sostén la mancuerna vertical con ambas manos frente al pecho. Pies al ancho de hombros. Baja hasta que los muslos queden paralelos al suelo. Talones siempre pegados al suelo.",
+    muscles: "Cuádriceps · Glúteos · Core",
+    anim: "goblet_squat"
+  },
+  "Peso muerto rumano RDL": {
+    desc: "Mancuernas frente a los muslos, bisagra de cadera (no doblas mucho las rodillas). Baja las mancuernas pegadas a las piernas hasta sentir el estiramiento en los isquios. Espalda recta siempre.",
+    muscles: "Isquiotibiales · Glúteos · Espalda baja",
+    anim: "rdl"
+  },
+  "Zancadas con mancuernas": {
+    desc: "Paso adelante largo, baja la rodilla trasera casi al suelo. La rodilla delantera no debe sobrepasar la punta del pie. Empuja con el talón delantero para volver.",
+    muscles: "Cuádriceps · Glúteos · Isquios",
+    anim: "lunge"
+  },
+  "Glute Bridge — elevación de cadera": {
+    desc: "Acostada boca arriba, rodillas dobladas, pies en el suelo. Empuja la cadera hacia arriba apretando los glúteos. Sostén 1 segundo arriba. Baja controlado.",
+    muscles: "Glúteos · Isquios · Core",
+    anim: "glute_bridge"
+  },
+  "Abducción de cadera": {
+    desc: "En máquina o con banda elástica. Separa las rodillas hacia afuera contra la resistencia. Lento y controlado. Activa el glúteo medio que estabiliza la rodilla al correr.",
+    muscles: "Glúteo medio · TFL",
+    anim: "hip_abduction"
+  },
+  "Calf raise — elevación de talón": {
+    desc: "Parada, sube en puntas de pie lentamente (2 seg subir, 3 seg bajar). En el borde de un escalón para mayor rango. Crucial para el tibial posterior.",
+    muscles: "Gastrocnemio · Sóleo · Tibial posterior",
+    anim: "calf_raise"
+  },
+  "Extensión de espalda baja": {
+    desc: "En banco romano o en el suelo. Bisagra en la cadera, baja el torso y sube hasta quedar alineada. No hiperextendas. Sostén 1 segundo arriba.",
+    muscles: "Espalda baja · Glúteos",
+    anim: "back_ext"
+  },
+  "Press inclinado con mancuernas": {
+    desc: "Banco inclinado a 30-45°. Igual que el press plano pero activa más la parte superior del pectoral. Codos a ~45° del cuerpo.",
+    muscles: "Pectoral superior · Tríceps · Deltoides",
+    anim: "incline_press"
+  },
+  "Remo bent-over con mancuernas": {
+    desc: "Inclinada hacia adelante ~45°, espalda recta. Jala ambas mancuernas hacia las caderas simultáneamente. Codos cerca del cuerpo.",
+    muscles: "Dorsal · Romboides · Bíceps",
+    anim: "bent_row"
+  },
+  "Elevación lateral con mancuernas": {
+    desc: "Parada, brazos ligeramente doblados. Sube las mancuernas hacia los lados hasta la altura de los hombros. Baja lento. Sin impulso ni balanceo.",
+    muscles: "Deltoides lateral",
+    anim: "lateral_raise"
+  },
+  "Face pull con polea o banda": {
+    desc: "Polea o banda a la altura de la cara. Jala hacia los ojos separando las manos. Los codos van hacia afuera y arriba. Activa el deltoides posterior y el manguito rotador.",
+    muscles: "Deltoides posterior · Manguito rotador",
+    anim: "face_pull"
+  },
+  "Push-ups — flexiones": {
+    desc: "Manos al ancho de hombros, cuerpo recto de cabeza a talones. Baja hasta que el pecho casi toque el suelo. Si es muy difícil: con rodillas. Nunca dejes caer las caderas.",
+    muscles: "Pectoral · Tríceps · Core",
+    anim: "pushup"
+  },
+  "Plancha": {
+    desc: "Codos bajo los hombros, cuerpo recto de cabeza a talones. Aprieta abdomen, glúteos y cuádriceps. No dejes caer la cadera ni la subas demasiado.",
+    muscles: "Core completo · Glúteos · Hombros",
+    anim: "plank"
+  },
+  "Dead Bug — core profundo": {
+    desc: "Acostada boca arriba, brazos hacia el techo, rodillas a 90°. Baja simultáneamente el brazo derecho y la pierna izquierda sin que la espalda baja se despegue del suelo. Alterna lados.",
+    muscles: "Core profundo · Transverso abdominal",
+    anim: "dead_bug"
+  },
+  "Crunches en Swiss ball": {
+    desc: "Siéntate en el Swiss ball y camina hacia adelante hasta que la espalda baja quede sobre la pelota. Brazos detrás de la cabeza o cruzados en el pecho. Curva el torso hacia adelante.",
+    muscles: "Recto abdominal · Oblicuos",
+    anim: "swiss_crunch"
+  }
+};
+
+// SVG animations for each exercise type
+const animSVGs = {
+  shoulder_press: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;stroke:none;}
+    @keyframes sp_arms{0%,100%{transform:translateY(0)}50%{transform:translateY(-28px)}}
+    @keyframes sp_bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    .arms-grp{animation:sp_arms 1.8s ease-in-out infinite;transform-origin:100px 95px;}
+    .torso-grp{animation:sp_bob 1.8s ease-in-out infinite;transform-origin:100px 130px;}
+  </style>
+  <g class="torso-grp">
+    <circle cx="100" cy="52" r="14" class="body"/>
+    <line x1="100" y1="66" x2="100" y2="120" class="body"/>
+    <line x1="100" y1="120" x2="80" y2="155" class="body"/>
+    <line x1="100" y1="120" x2="120" y2="155" class="body"/>
+  </g>
+  <g class="arms-grp">
+    <line x1="100" y1="80" x2="68" y2="97" class="body"/>
+    <line x1="100" y1="80" x2="132" y2="97" class="body"/>
+    <rect x="58" y="93" width="16" height="7" rx="3" class="weight"/>
+    <rect x="126" y="93" width="16" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Press de hombro</text>
+</svg>`,
+
+  bench_press: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    .bench{fill:none;stroke:#4a4a58;stroke-width:2.5;}
+    @keyframes bp{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+    .arms{animation:bp 1.8s ease-in-out infinite;transform-origin:100px 100px;}
+  </style>
+  <rect x="30" y="128" width="140" height="12" rx="4" class="bench"/>
+  <line x1="50" y1="140" x2="50" y2="165" class="bench"/>
+  <line x1="150" y1="140" x2="150" y2="165" class="bench"/>
+  <circle cx="100" cy="112" r="13" class="body"/>
+  <line x1="100" y1="125" x2="100" y2="128" class="body"/>
+  <line x1="80" y1="128" x2="120" y2="128" class="body"/>
+  <line x1="80" y1="128" x2="68" y2="145" class="body"/>
+  <line x1="120" y1="128" x2="132" y2="145" class="body"/>
+  <g class="arms">
+    <line x1="72" y1="100" x2="58" y2="85" class="body"/>
+    <line x1="128" y1="100" x2="142" y2="85" class="body"/>
+    <line x1="100" y1="90" x2="72" y2="100" class="body"/>
+    <line x1="100" y1="90" x2="128" y2="100" class="body"/>
+    <rect x="48" y="80" width="14" height="7" rx="3" class="weight"/>
+    <rect x="138" y="80" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Press de pecho</text>
+</svg>`,
+
+  row_1arm: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    .bench{fill:none;stroke:#4a4a58;stroke-width:2.5;}
+    @keyframes row{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+    .pull{animation:row 1.6s ease-in-out infinite;transform-origin:120px 105px;}
+  </style>
+  <rect x="40" y="115" width="55" height="10" rx="3" class="bench"/>
+  <line x1="52" y1="125" x2="52" y2="148" class="bench"/>
+  <circle cx="88" cy="85" r="12" class="body"/>
+  <line x1="88" y1="97" x2="88" y2="118" class="body"/>
+  <line x1="60" y1="100" x2="88" y2="97" class="body"/>
+  <line x1="60" y1="100" x2="55" y2="125" class="body"/>
+  <line x1="88" y1="118" x2="78" y2="148" class="body"/>
+  <line x1="88" y1="118" x2="108" y2="140" class="body"/>
+  <g class="pull">
+    <line x1="88" y1="97" x2="138" y2="88" class="body"/>
+    <line x1="138" y1="88" x2="148" y2="108" class="body"/>
+    <rect x="144" y="104" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="183" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Remo 1 brazo</text>
+</svg>`,
+
+  lat_pulldown: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .bar{fill:none;stroke:#47b8ff;stroke-width:3;}
+    @keyframes lp{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
+    .arms{animation:lp 1.8s ease-in-out infinite;transform-origin:100px 95px;}
+  </style>
+  <line x1="30" y1="25" x2="170" y2="25" class="bar"/>
+  <line x1="100" y1="25" x2="100" y2="38" class="bar"/>
+  <g class="arms">
+    <line x1="60" y1="38" x2="100" y2="55" class="body"/>
+    <line x1="140" y1="38" x2="100" y2="55" class="body"/>
+    <circle cx="56" cy="35" r="6" style="fill:#47b8ff"/>
+    <circle cx="144" cy="35" r="6" style="fill:#47b8ff"/>
+  </g>
+  <circle cx="100" cy="68" r="13" class="body"/>
+  <line x1="100" y1="81" x2="100" y2="130" class="body"/>
+  <line x1="100" y1="100" x2="76" y2="118" class="body"/>
+  <line x1="100" y1="100" x2="124" y2="118" class="body"/>
+  <line x1="100" y1="130" x2="84" y2="162" class="body"/>
+  <line x1="100" y1="130" x2="116" y2="162" class="body"/>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Jalón al pecho</text>
+</svg>`,
+
+  bicep_curl: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes bc{0%{transform:rotate(0deg)}50%{transform:rotate(-70deg)}100%{transform:rotate(0deg)}}
+    .forearm{animation:bc 1.6s ease-in-out infinite;transform-origin:70px 118px;}
+    .forearm2{animation:bc 1.6s ease-in-out infinite 0.4s;transform-origin:130px 118px;}
+  </style>
+  <circle cx="100" cy="50" r="14" class="body"/>
+  <line x1="100" y1="64" x2="100" y2="115" class="body"/>
+  <line x1="100" y1="85" x2="70" y2="102" class="body"/>
+  <line x1="100" y1="85" x2="130" y2="102" class="body"/>
+  <line x1="100" y1="115" x2="82" y2="150" class="body"/>
+  <line x1="100" y1="115" x2="118" y2="150" class="body"/>
+  <g class="forearm">
+    <line x1="70" y1="118" x2="65" y2="148" class="body"/>
+    <rect x="56" y="144" width="16" height="7" rx="3" class="weight"/>
+  </g>
+  <g class="forearm2">
+    <line x1="130" y1="118" x2="135" y2="148" class="body"/>
+    <rect x="128" y="144" width="16" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Curl de bíceps</text>
+</svg>`,
+
+  tricep_ext: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes te{0%,100%{transform:rotate(0deg)}50%{transform:rotate(55deg)}}
+    .forearm{animation:te 1.8s ease-in-out infinite;transform-origin:100px 78px;}
+  </style>
+  <circle cx="100" cy="50" r="13" class="body"/>
+  <line x1="100" y1="63" x2="100" y2="115" class="body"/>
+  <line x1="100" y1="82" x2="78" y2="95" class="body"/>
+  <line x1="100" y1="82" x2="122" y2="95" class="body"/>
+  <line x1="100" y1="115" x2="84" y2="150" class="body"/>
+  <line x1="100" y1="115" x2="116" y2="150" class="body"/>
+  <line x1="88" y1="68" x2="112" y2="68" class="body"/>
+  <line x1="100" y1="68" x2="100" y2="78" class="body"/>
+  <g class="forearm">
+    <line x1="100" y1="78" x2="100" y2="112" class="body"/>
+    <rect x="90" y="108" width="20" height="8" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Extensión tríceps</text>
+</svg>`,
+
+  superman: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes sm{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+    .lift{animation:sm 2s ease-in-out infinite;transform-origin:100px 105px;}
+  </style>
+  <line x1="20" y1="148" x2="180" y2="148" class="body floor"/>
+  <circle cx="52" cy="105" r="11" class="body"/>
+  <line x1="62" y1="108" x2="100" y2="112" class="body"/>
+  <line x1="100" y1="112" x2="138" y2="112" class="body"/>
+  <line x1="100" y1="112" x2="100" y2="148" class="body"/>
+  <g class="lift">
+    <line x1="40" y1="105" x2="20" y2="100" class="body"/>
+    <line x1="138" y1="112" x2="165" y2="108" class="body"/>
+    <line x1="100" y1="112" x2="84" y2="148" class="body"/>
+    <line x1="100" y1="112" x2="116" y2="148" class="body"/>
+  </g>
+  <text x="100" y="175" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Superman</text>
+</svg>`,
+
+  bird_dog: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes bd_arm{0%,100%{transform:translateX(0)}50%{transform:translateX(-18px)}}
+    @keyframes bd_leg{0%,100%{transform:translateX(0)}50%{transform:translateX(18px)}}
+    .ext_arm{animation:bd_arm 2s ease-in-out infinite;transform-origin:75px 90px;}
+    .ext_leg{animation:bd_leg 2s ease-in-out infinite;transform-origin:125px 108px;}
+  </style>
+  <line x1="20" y1="150" x2="180" y2="150" class="body floor"/>
+  <circle cx="92" cy="78" r="11" class="body"/>
+  <line x1="92" y1="89" x2="100" y2="108" class="body"/>
+  <line x1="62" y1="118" x2="100" y2="108" class="body"/>
+  <line x1="100" y1="108" x2="138" y2="118" class="body"/>
+  <line x1="62" y1="118" x2="62" y2="150" class="body"/>
+  <line x1="138" y1="118" x2="138" y2="150" class="body"/>
+  <g class="ext_arm">
+    <line x1="92" y1="89" x2="65" y2="85" class="body"/>
+  </g>
+  <g class="ext_leg">
+    <line x1="138" y1="118" x2="165" y2="112" class="body"/>
+  </g>
+  <text x="100" y="178" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Bird Dog</text>
+</svg>`,
+
+  goblet_squat: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes gs{0%,100%{transform:translateY(0)}50%{transform:translateY(28px)}}
+    .person{animation:gs 2s ease-in-out infinite;transform-origin:100px 100px;}
+  </style>
+  <g class="person">
+    <circle cx="100" cy="52" r="13" class="body"/>
+    <line x1="100" y1="65" x2="100" y2="108" class="body"/>
+    <line x1="82" y1="78" x2="118" y2="78" class="body"/>
+    <rect x="88" y="74" width="24" height="10" rx="3" class="weight"/>
+    <line x1="100" y1="108" x2="75" y2="145" class="body"/>
+    <line x1="100" y1="108" x2="125" y2="145" class="body"/>
+    <line x1="75" y1="145" x2="68" y2="168" class="body"/>
+    <line x1="125" y1="145" x2="132" y2="168" class="body"/>
+  </g>
+  <text x="100" y="192" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Sentadilla goblet</text>
+</svg>`,
+
+  rdl: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes rdl_h{0%,100%{transform:rotate(0deg)}50%{transform:rotate(55deg)}}
+    .hinge{animation:rdl_h 2s ease-in-out infinite;transform-origin:100px 108px;}
+  </style>
+  <line x1="100" y1="108" x2="84" y2="155" class="body"/>
+  <line x1="100" y1="108" x2="116" y2="155" class="body"/>
+  <line x1="84" y1="155" x2="78" y2="175" class="body"/>
+  <line x1="116" y1="155" x2="122" y2="175" class="body"/>
+  <g class="hinge">
+    <circle cx="100" cy="58" r="13" class="body"/>
+    <line x1="100" y1="71" x2="100" y2="108" class="body"/>
+    <line x1="100" y1="88" x2="72" y2="96" class="body"/>
+    <line x1="100" y1="88" x2="128" y2="96" class="body"/>
+    <rect x="58" y="92" width="16" height="7" rx="3" class="weight"/>
+    <rect x="126" y="92" width="16" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="192" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">RDL</text>
+</svg>`,
+
+  lunge: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes lng{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+    .person{animation:lng 2s ease-in-out infinite;transform-origin:100px 100px;}
+  </style>
+  <line x1="20" y1="170" x2="180" y2="170" class="body floor"/>
+  <g class="person">
+    <circle cx="100" cy="55" r="13" class="body"/>
+    <line x1="100" y1="68" x2="100" y2="110" class="body"/>
+    <line x1="100" y1="82" x2="78" y2="92" class="body"/>
+    <line x1="100" y1="82" x2="122" y2="92" class="body"/>
+    <rect x="68" y="88" width="14" height="7" rx="3" class="weight"/>
+    <rect x="118" y="88" width="14" height="7" rx="3" class="weight"/>
+    <line x1="100" y1="110" x2="72" y2="150" class="body"/>
+    <line x1="100" y1="110" x2="128" y2="140" class="body"/>
+    <line x1="72" y1="150" x2="66" y2="170" class="body"/>
+    <line x1="128" y1="140" x2="140" y2="170" class="body"/>
+  </g>
+  <text x="100" y="190" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Zancada</text>
+</svg>`,
+
+  glute_bridge: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes gb{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+    .hips{animation:gb 1.8s ease-in-out infinite;transform-origin:100px 125px;}
+  </style>
+  <line x1="20" y1="158" x2="180" y2="158" class="body floor"/>
+  <circle cx="55" cy="120" r="11" class="body"/>
+  <line x1="55" y1="131" x2="65" y2="158" class="body"/>
+  <line x1="55" y1="131" x2="100" y2="130" class="body"/>
+  <line x1="100" y1="130" x2="145" y2="131" class="body"/>
+  <line x1="145" y1="131" x2="148" y2="158" class="body"/>
+  <g class="hips">
+    <line x1="65" y1="158" x2="100" y2="130" class="body"/>
+    <line x1="100" y1="130" x2="148" y2="158" class="body"/>
+    <rect x="88" y="122" width="24" height="10" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="182" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Glute Bridge</text>
+</svg>`,
+
+  hip_abduction: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    @keyframes ha{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-25deg)}}
+    .leg{animation:ha 1.8s ease-in-out infinite;transform-origin:100px 118px;}
+  </style>
+  <circle cx="100" cy="52" r="13" class="body"/>
+  <line x1="100" y1="65" x2="100" y2="118" class="body"/>
+  <line x1="100" y1="85" x2="76" y2="98" class="body"/>
+  <line x1="100" y1="85" x2="124" y2="98" class="body"/>
+  <line x1="100" y1="118" x2="86" y2="158" class="body"/>
+  <g class="leg">
+    <line x1="100" y1="118" x2="118" y2="158" class="body"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Abducción cadera</text>
+</svg>`,
+
+  calf_raise: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes cr{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}60%{transform:translateY(-22px)}}
+    .person{animation:cr 2.2s ease-in-out infinite;transform-origin:100px 120px;}
+  </style>
+  <line x1="40" y1="168" x2="160" y2="168" class="body floor"/>
+  <line x1="80" y1="155" x2="80" y2="168" style="stroke:#4a4a58;stroke-width:3"/>
+  <line x1="120" y1="155" x2="120" y2="168" style="stroke:#4a4a58;stroke-width:3"/>
+  <g class="person">
+    <circle cx="100" cy="55" r="13" class="body"/>
+    <line x1="100" y1="68" x2="100" y2="115" class="body"/>
+    <line x1="100" y1="88" x2="76" y2="100" class="body"/>
+    <line x1="100" y1="88" x2="124" y2="100" class="body"/>
+    <line x1="100" y1="115" x2="86" y2="150" class="body"/>
+    <line x1="100" y1="115" x2="114" y2="150" class="body"/>
+    <line x1="86" y1="150" x2="80" y2="155" class="body"/>
+    <line x1="114" y1="150" x2="120" y2="155" class="body"/>
+  </g>
+  <text x="100" y="188" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Calf raise</text>
+</svg>`,
+
+  back_ext: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .bench{fill:none;stroke:#4a4a58;stroke-width:2.5;}
+    @keyframes be{0%,100%{transform:rotate(40deg)}50%{transform:rotate(0deg)}}
+    .torso{animation:be 2s ease-in-out infinite;transform-origin:110px 118px;}
+  </style>
+  <rect x="30" y="115" width="140" height="12" rx="4" class="bench"/>
+  <line x1="50" y1="127" x2="50" y2="155" class="bench"/>
+  <line x1="150" y1="127" x2="150" y2="155" class="bench"/>
+  <line x1="110" y1="118" x2="158" y2="118" class="body"/>
+  <line x1="158" y1="118" x2="160" y2="148" class="body"/>
+  <g class="torso">
+    <circle cx="82" cy="104" r="12" class="body"/>
+    <line x1="82" y1="116" x2="110" y2="118" class="body"/>
+    <line x1="78" y1="105" x2="58" y2="98" class="body"/>
+  </g>
+  <text x="100" y="178" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Extensión espalda baja</text>
+</svg>`,
+
+  incline_press: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    .bench{fill:none;stroke:#4a4a58;stroke-width:2.5;}
+    @keyframes ip{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    .arms{animation:ip 1.8s ease-in-out infinite;transform-origin:100px 95px;}
+  </style>
+  <rect x="35" y="120" width="130" height="10" rx="3" style="fill:none;stroke:#4a4a58;stroke-width:2;transform:rotate(-15deg);transform-origin:100px 125px"/>
+  <line x1="45" y1="148" x2="45" y2="168" class="bench"/>
+  <line x1="148" y1="128" x2="148" y2="148" class="bench"/>
+  <circle cx="85" cy="98" r="12" class="body"/>
+  <line x1="85" y1="110" x2="100" y2="128" class="body"/>
+  <line x1="100" y1="128" x2="72" y2="148" class="body"/>
+  <line x1="100" y1="128" x2="128" y2="140" class="body"/>
+  <g class="arms">
+    <line x1="80" y1="105" x2="60" y2="90" class="body"/>
+    <line x1="92" y1="102" x2="120" y2="90" class="body"/>
+    <rect x="50" y="85" width="14" height="7" rx="3" class="weight"/>
+    <rect x="116" y="85" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="185" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Press inclinado</text>
+</svg>`,
+
+  bent_row: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes br{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    .arms{animation:br 1.6s ease-in-out infinite;transform-origin:100px 105px;}
+  </style>
+  <circle cx="82" cy="72" r="12" class="body"/>
+  <line x1="82" y1="84" x2="100" y2="110" class="body"/>
+  <line x1="100" y1="110" x2="82" y2="150" class="body"/>
+  <line x1="100" y1="110" x2="118" y2="150" class="body"/>
+  <line x1="82" y1="150" x2="75" y2="172" class="body"/>
+  <line x1="118" y1="150" x2="125" y2="172" class="body"/>
+  <g class="arms">
+    <line x1="88" y1="95" x2="62" y2="105" class="body"/>
+    <line x1="100" y1="100" x2="138" y2="105" class="body"/>
+    <rect x="50" y="101" width="14" height="7" rx="3" class="weight"/>
+    <rect x="134" y="101" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="188" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Remo bent-over</text>
+</svg>`,
+
+  lateral_raise: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .weight{fill:#47b8ff;}
+    @keyframes lr{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-50deg)}}
+    .larm{animation:lr 1.8s ease-in-out infinite;transform-origin:78px 88px;}
+    .rarm{animation:lr 1.8s ease-in-out infinite;transform-origin:122px 88px;}
+  </style>
+  <circle cx="100" cy="52" r="13" class="body"/>
+  <line x1="100" y1="65" x2="100" y2="115" class="body"/>
+  <line x1="100" y1="115" x2="84" y2="152" class="body"/>
+  <line x1="100" y1="115" x2="116" y2="152" class="body"/>
+  <g class="larm">
+    <line x1="100" y1="80" x2="68" y2="92" class="body"/>
+    <line x1="68" y1="92" x2="55" y2="108" class="body"/>
+    <rect x="44" y="104" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <g class="rarm">
+    <line x1="100" y1="80" x2="132" y2="92" class="body"/>
+    <line x1="132" y1="92" x2="145" y2="108" class="body"/>
+    <rect x="142" y="104" width="14" height="7" rx="3" class="weight"/>
+  </g>
+  <text x="100" y="182" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Elevación lateral</text>
+</svg>`,
+
+  face_pull: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .cable{stroke:#47b8ff;stroke-width:2;stroke-dasharray:4 3;}
+    @keyframes fp{0%,100%{transform:translateX(0)}50%{transform:translateX(-22px)}}
+    .arms{animation:fp 1.8s ease-in-out infinite;transform-origin:100px 90px;}
+  </style>
+  <line x1="178" y1="40" x2="178" y2="160" class="body" style="stroke:#4a4a58"/>
+  <circle cx="178" cy="95" r="7" style="fill:#47b8ff"/>
+  <circle cx="100" cy="55" r="13" class="body"/>
+  <line x1="100" y1="68" x2="100" y2="118" class="body"/>
+  <line x1="100" y1="118" x2="84" y2="155" class="body"/>
+  <line x1="100" y1="118" x2="116" y2="155" class="body"/>
+  <g class="arms">
+    <line x1="100" y1="82" x2="72" y2="78" class="body"/>
+    <line x1="100" y1="82" x2="72" y2="102" class="body"/>
+    <line x1="72" y1="78" x2="178" y2="88" class="cable"/>
+    <line x1="72" y1="102" x2="178" y2="102" class="cable"/>
+  </g>
+  <text x="90" y="180" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Face pull</text>
+</svg>`,
+
+  pushup: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes pu{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+    .arms{animation:pu 1.6s ease-in-out infinite;transform-origin:100px 115px;}
+  </style>
+  <line x1="20" y1="158" x2="180" y2="158" class="body floor"/>
+  <circle cx="55" cy="108" r="12" class="body"/>
+  <line x1="55" y1="120" x2="145" y2="125" class="body"/>
+  <line x1="145" y1="125" x2="145" y2="158" class="body"/>
+  <g class="arms">
+    <line x1="55" y1="120" x2="62" y2="155" class="body"/>
+    <line x1="62" y1="155" x2="78" y2="158" class="body"/>
+  </g>
+  <text x="100" y="178" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Push-up</text>
+</svg>`,
+
+  plank: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes pk{0%,100%{opacity:1}50%{opacity:.5}}
+    .glow{animation:pk 2s ease-in-out infinite;}
+  </style>
+  <line x1="20" y1="155" x2="180" y2="155" class="body floor"/>
+  <circle cx="50" cy="110" r="12" class="body"/>
+  <line x1="50" y1="122" x2="155" y2="122" class="body"/>
+  <line x1="60" y1="122" x2="60" y2="155" class="body"/>
+  <line x1="155" y1="122" x2="148" y2="155" class="body"/>
+  <line x1="50" y1="122" x2="58" y2="143" class="body"/>
+  <line x1="58" y1="143" x2="60" y2="155" class="body"/>
+  <rect x="30" y="100" width="145" height="5" rx="2" style="fill:rgba(232,255,71,.15)" class="glow"/>
+  <text x="100" y="178" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Plancha</text>
+</svg>`,
+
+  dead_bug: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .floor{stroke:#4a4a58;stroke-width:2;}
+    @keyframes db_r{0%,100%{transform:translateY(0)}50%{transform:translateY(-28px)}}
+    @keyframes db_l{0%,100%{transform:translateY(0)}50%{transform:translateY(28px)}}
+    .rarm{animation:db_r 2s ease-in-out infinite;transform-origin:78px 90px;}
+    .lleg{animation:db_l 2s ease-in-out infinite;transform-origin:115px 120px;}
+  </style>
+  <line x1="20" y1="118" x2="180" y2="118" class="body floor"/>
+  <circle cx="100" cy="82" r="12" class="body"/>
+  <line x1="100" y1="94" x2="100" y2="118" class="body"/>
+  <line x1="80" y1="118" x2="120" y2="118" class="body"/>
+  <line x1="122" y1="100" x2="140" y2="88" class="body"/>
+  <line x1="80" y1="118" x2="78" y2="148" class="body"/>
+  <g class="rarm">
+    <line x1="78" y1="100" x2="58" y2="88" class="body"/>
+  </g>
+  <g class="lleg">
+    <line x1="115" y1="118" x2="128" y2="148" class="body"/>
+  </g>
+  <text x="100" y="175" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Dead Bug</text>
+</svg>`,
+
+  swiss_crunch: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .body{fill:none;stroke:#e8ff47;stroke-width:3;stroke-linecap:round;}
+    .ball{fill:none;stroke:#b47aff;stroke-width:2.5;}
+    @keyframes sc{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-30deg)}}
+    .torso{animation:sc 2s ease-in-out infinite;transform-origin:100px 120px;}
+  </style>
+  <ellipse cx="100" cy="140" rx="38" ry="22" class="ball"/>
+  <line x1="62" y1="140" x2="55" y2="158" class="body"/>
+  <line x1="138" y1="140" x2="145" y2="158" class="body"/>
+  <g class="torso">
+    <circle cx="100" cy="88" r="12" class="body"/>
+    <line x1="100" y1="100" x2="100" y2="122" class="body"/>
+    <line x1="86" y1="108" x2="114" y2="108" class="body"/>
+  </g>
+  <text x="100" y="182" text-anchor="middle" font-size="11" fill="#7a7a8a" font-family="sans-serif">Crunch Swiss ball</text>
+</svg>`
+};
+
+// Override openVideo with animated SVG modal
+function openVideo(title, youtubeId, desc) {
+  const key = Object.keys(exercises).find(k => k === title);
+  const ex = key ? exercises[key] : null;
+  const animKey = ex ? ex.anim : null;
+  const svgContent = animKey && animSVGs[animKey] ? animSVGs[animKey] : '';
+  const muscles = ex ? ex.muscles : '';
+  const description = ex ? ex.desc : desc;
+
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalVideo').style.display = 'none';
+  document.getElementById('modalDesc').innerHTML =
+    (svgContent ? '<div style="background:#141417;border-radius:8px;padding:12px;margin-bottom:12px;max-width:240px;margin-left:auto;margin-right:auto">' + svgContent + '</div>' : '') +
+    (muscles ? '<div style="font-size:11px;color:#47b8ff;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">' + muscles + '</div>' : '') +
+    '<p style="font-size:13px;color:#7a7a8a;line-height:1.65">' + description + '</p>';
+  document.getElementById('videoModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('videoModal').classList.remove('open');
+  document.getElementById('modalVideo').src = '';
+  document.getElementById('modalVideo').style.display = '';
+  document.getElementById('modalDesc').innerHTML = '';
+}
+</script>
